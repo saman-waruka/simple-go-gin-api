@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/getsentry/sentry-go"
+  sentrygin "github.com/getsentry/sentry-go/gin"
   "go.uber.org/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -24,10 +27,30 @@ func main() {
 		port = "8216"
 	}
 
+	sentryDNS := os.Getenv("SENTRY_DNS")
+	if sentryDNS == "" || sentryDNS == "null" || sentryDNS == "undefined"  {
+		panic("⚠️  SENTRY_DSN is not set")
+	}
+
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 
+
+	// To initialize Sentry's handler, you need to initialize Sentry itself beforehand
+if err := sentry.Init(sentry.ClientOptions{
+  Dsn: sentryDNS,
+	EnableTracing: true,
+  // Set TracesSampleRate to 1.0 to capture 100%
+  // of transactions for tracing.
+  // We recommend adjusting this value in production,
+  TracesSampleRate: 1.0,
+}); err != nil {
+  fmt.Printf("Sentry initialization failed: %v\n", err)
+}
+
 	r := gin.Default()
+	// Once it's done, you can attach the handler as one of your middleware
+	r.Use(sentrygin.New(sentrygin.Options{}))
 	r.Use(middleware.RecoveryWithZap(logger))
 	r.Use(gin.Logger())
 
