@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "name": "Alice",
+    "email": "alice@example.com"
+  },
+  {
+    "id": "2",
+    "name": "Bob",
+    "email": "bob@example.com"
+  },
+  {
+    "id": "5c0bad80-43c8-41ce-a990-1bafd815775d",
+    "name": "Frank Murray",
+    "email": "Dorcas_Gerhold@gmail.com"
+  },
+  {
+    "id": "1674eb38-654d-4c8d-9446-e86e25eda5df",
+    "name": "Patrick Doyle",
+    "email": "Ismael_Brakus96@yahoo.com"
+  },
+  {
+    "id": "867f7ab3-ca22-49ce-92a9-8b0bc09b3b2d",
+    "name": "Delphine Rogahn",
+    "email": "Liam88@yahoo.com"
+  },
+  {
+    "id": "5389e005-6592-407c-a7ff-53b526a6c624",
+    "name": "Immanuel Koch",
+    "email": "Danyka.Crooks21@hotmail.com"
+  },
+  {
+    "id": "51d4fe21-ef0b-416d-90f5-f3d3b7b94452",
+    "name": "Jovan Bednar",
+    "email": "Berneice.Daniel@gmail.com"
+  }
+]
