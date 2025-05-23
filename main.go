@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"go-gin-api/handler"
-	"go-gin-api/middlewares"
+	"go-gin-api/middleware"
 	"net/http"
 	"os"
 	"time"
@@ -13,6 +13,7 @@ import (
   "go.uber.org/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -51,6 +52,7 @@ if err := sentry.Init(sentry.ClientOptions{
 	r := gin.Default()
 	// Once it's done, you can attach the handler as one of your middleware
 	r.Use(sentrygin.New(sentrygin.Options{}))
+	r.Use(middleware.PrometheusMiddleware())
 	r.Use(middleware.RecoveryWithZap(logger))
 	r.Use(gin.Logger())
 
@@ -60,6 +62,8 @@ if err := sentry.Init(sentry.ClientOptions{
 			"message": "pong " + currentTime,
 		})
 	})
+
+	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	r.GET("/panic", func(c *gin.Context) {
 		panic("😱 Something exploded!")
