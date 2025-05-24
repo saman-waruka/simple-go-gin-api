@@ -49,3 +49,4 @@ To generate swagger description
     swag init
     ```
     This process will re-create files at folder ```docs```  (```docs.go```, ```swagger.json```, ```swagger.yaml```)
+ For more information about swagger in go https://github.com/swaggo/swag   
