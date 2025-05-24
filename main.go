@@ -14,6 +14,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/files"
+	_ "go-gin-api/docs"
 )
 
 func main() {
@@ -62,9 +65,15 @@ if err := sentry.Init(sentry.ClientOptions{
 			"message": "pong " + currentTime,
 		})
 	})
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
+	// @title           Simple GO GIN API Example for thrown error
+	// @version         1.0
+	// @description     This is a simple example of a GO GIN API with integrated monitoring tools (Sentry, Prometheus, Grafana, Zap logging).
+	// @host            localhost:8216
+	// @BasePath        /
 	r.GET("/panic", func(c *gin.Context) {
 		panic("😱 Something exploded!")
 	})

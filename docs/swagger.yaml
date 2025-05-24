@@ -1,0 +1,112 @@
+basePath: /
+definitions:
+  handler.User:
+    properties:
+      email:
+        example: Jovan.Bednar@gggmail.com
+        type: string
+      id:
+        example: 51d4fe21-ef0b-416d-90f5-f3d3b7b94452
+        type: string
+      name:
+        example: Jovan Bednar
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  models.ErrorBadRequestCreateUserResponse:
+    properties:
+      error:
+        example: 'Key: ''User.Email'' Error:Field validation for ''Email'' failed
+          on the ''required'' tag'
+        type: string
+    type: object
+  models.ErrorInternalServerResponse:
+    properties:
+      error:
+        example: Internal Server Error
+        type: string
+    type: object
+  models.ErrorUnauthorizedResponse:
+    properties:
+      error:
+        example: Unauthorized
+        type: string
+    type: object
+host: localhost:8216
+info:
+  contact: {}
+  description: This is a simple example of a GO GIN API with integrated monitoring
+    tools (Sentry, Prometheus, Grafana, Zap logging).
+  title: Simple GO GIN API Example for thrown error
+  version: "1.0"
+paths:
+  /users:
+    get:
+      description: Retrieve the list of all users
+      parameters:
+      - description: Authorization token
+        in: header
+        name: x-authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.User'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorUnauthorizedResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorInternalServerResponse'
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Add a new user to the list
+      parameters:
+      - description: User to create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handler.User'
+      - description: Authorization token
+        in: header
+        name: x-authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorBadRequestCreateUserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorUnauthorizedResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorInternalServerResponse'
+      summary: Create a new user
+      tags:
+      - users
+swagger: "2.0"

@@ -37,3 +37,15 @@
     ```bash
     air
     ```
+
+---
+Swagger 
+To access swagger url  http://localhost:8216/swagger/index.html
+
+To generate swagger description 
+1. Add comment at handler (example see ```user_handler.go``` on function GetUsers and CreateUser)
+2. run command to generate swagger file (JSON, yml)
+    ```bash
+    swag init
+    ```
+    This process will re-create files at folder ```docs```  (```docs.go```, ```swagger.json```, ```swagger.yaml```)
